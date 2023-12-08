@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+@import "react-alice-carousel/lib/alice-carousel.css";
+
+* {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: gold;
+}
+
+.app {
+    background-color: #14161a;
+    color: white;
+    min-height: 100vh;
+}
+
+.appbar {
+    flex: 1;
+    color: gold;
+    font-family: "Montserrat";
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.banner {
+    background-image: url(../public/banner2.jpg);
+}
+
+.bannerContent {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 25px;
+    justify-content: space-around;
+}
+
+.tagline {
+    display: flex;
+    height: 40%;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.carousel {
+    height: 50%;
+    display: flex;
+    align-items: center;
+}
