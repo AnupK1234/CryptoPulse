@@ -52,3 +52,12 @@ a {
     display: flex;
     align-items: center;
 }
+
+.carouselItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    color: white;
+}

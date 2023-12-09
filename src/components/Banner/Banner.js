@@ -7,11 +7,29 @@ function Banner() {
     <>
       <div className="banner">
         <Container className="bannerContent">
-            <div className="tagline">
-                <Typography variant="h2" style={{fontWeight:"bold", marginBottom: 15, fontFamily: "Montserrat"}}>CryptoPulse</Typography>
-                <Typography variant="subtitle2" style={{color:"darkgray", textTransform:"capitalize", fontFamily: "Montserrat"}}>Get all the Info regarding your favorite Cryptocurrency</Typography>
-            </div>
-            <Carousel/>
+          <div className="tagline">
+            <Typography
+              variant="h2"
+              style={{
+                fontWeight: "bold",
+                marginBottom: 15,
+                fontFamily: "Montserrat",
+              }}
+            >
+              CryptoPulse
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              style={{
+                color: "darkgray",
+                textTransform: "capitalize",
+                fontFamily: "Montserrat",
+              }}
+            >
+              Get all the Info regarding your favorite Cryptocurrency
+            </Typography>
+          </div>
+          <Carousel />
         </Container>
       </div>
     </>

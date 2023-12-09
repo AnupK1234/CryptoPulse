@@ -11,7 +11,6 @@ import {
 import React from "react";
 import { CryptoState } from "../CryptoContext";
 
-
 const Header = () => {
   const darkTheme = createTheme({
     palette: {
@@ -22,7 +21,7 @@ const Header = () => {
     },
   });
 
-  const {currency , setCurrency} = CryptoState();
+  const { currency, setCurrency } = CryptoState();
   return (
     <ThemeProvider theme={darkTheme}>
       <AppBar color="transparent" position="static">
