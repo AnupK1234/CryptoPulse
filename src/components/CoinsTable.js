@@ -44,8 +44,8 @@ const CoinsTable = () => {
   const handleSearch = () => {
     return coins.filter(
       (coin) =>
-        coin.name.toLowerCase().includes(search) ||
-        coin.symbol.toLowerCase().includes(search)
+        coin.name.toLowerCase().includes(search.toLowerCase()) ||
+        coin.symbol.toLowerCase().includes(search.toLowerCase())
     );
   };
 
@@ -80,19 +80,20 @@ const CoinsTable = () => {
             <Table aria-label="simple table">
               <TableHead style={{ backgroundColor: "#EEBC1D" }}>
                 <TableRow>
-                  {["Coin", "Price", "24h Change", "Market Cap"].map((head) => {
+                  {["Coin", "Price", "24h Change", "Market Cap"].map((head) => (
                     <TableCell
                       style={{
                         color: "black",
-                        fontWeight: "700",
+                        fontWeight: "900",
+                        fontSize: "18px",
                         fontFamily: "Montserrat",
                       }}
                       key={head}
                       align={head === "Coin" ? "" : "right"}
                     >
                       {head}
-                    </TableCell>;
-                  })}
+                    </TableCell>
+                  ))}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -169,7 +170,8 @@ const CoinsTable = () => {
                     padding:20,
                     width: "100%",
                     display: "flex",
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    color: "red"
                    }}
                    onChange={(_, value) => {
                     setPage(value);

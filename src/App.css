@@ -61,3 +61,149 @@ a {
     text-transform: uppercase;
     color: white;
 }
+
+/* .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 25px;
+    border-right: 2px solid grey;
+}
+.heading {
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-family: "Montserrat";
+}
+
+.description {
+    width: 100%;
+    font-family: "Montserrat";
+    padding: 25px;
+    padding-bottom: 15px;
+    padding-top: 0;
+    text-align: justify;
+}
+
+.marketData {
+    align-self: start;
+    padding: 25px;
+    padding-top: 10px;
+    width: 100%;
+
+} */
+.container {
+    display: flex;
+  }
+  
+  @media only screen and (max-width: 960px) {
+    .container {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
+  .sidebar {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    max-height:100vh;
+    margin-top: 25px;
+    border-right: 2px solid grey;
+  }
+
+  @media only screen and (max-width: 960px) {
+    .sidebar {
+      width: 100%;
+    }
+  }
+  
+  .heading {
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-family: Montserrat;
+  }
+  
+  .description {
+    width: 100%;
+    font-family: Montserrat;
+    padding: 25px;
+    padding-bottom: 15px;
+    padding-top: 0;
+    text-align: justify;
+  }
+  
+  .marketData {
+    align-self: start;
+    padding: 25px;
+    padding-top: 10px;
+    width: 100%;
+  }
+  
+  @media only screen and (max-width: 960px) {
+    .marketData {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+  
+  @media only screen and (max-width: 600px) {
+    .marketData {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
+  @media only screen and (max-width: 480px) {
+    .marketData {
+      align-items: start;
+    }
+  }
+
+  .coinContainer {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  
+  @media (max-width: 960px) {
+    .coinContainer {
+      width: 100%;
+      margin-top: 0;
+      padding: 20px;
+      padding-top: 0;
+    }
+  }
+  
+  
+  .selectbutton {
+    border: 1px solid gold;
+    border-radius: 5px;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-family: Montserrat;
+    cursor: pointer;
+    background-color: var(--primary); /* Add your desired background color or remove this line */
+    color: var(--text-color); /* Add your desired text color or remove this line */
+    font-weight: 500;
+    width: 22%;
+    transition: background-color 0.3s, color 0.3s;
+  
+    &:hover {
+      background-color: gold;
+      color: black;
+    }
+  }
+  

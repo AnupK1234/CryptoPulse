@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { CryptoState } from "../CryptoContext";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const darkTheme = createTheme({
@@ -27,7 +28,7 @@ const Header = () => {
       <AppBar color="transparent" position="static">
         <Container>
           <Toolbar>
-            <Typography style={{ color: "gold" }}>CryptoPulse</Typography>
+            <Link to="/"><Typography style={{ color: "gold" }}>CryptoPulse</Typography></Link>
             <Select
               variant="outlined"
               style={{ widows: 100, height: 40, marginRight: 15 }}
