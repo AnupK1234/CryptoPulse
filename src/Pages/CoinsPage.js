@@ -1,21 +1,53 @@
+import { Button, LinearProgress, Typography } from "@mui/material";
+import axios from "axios";
+import { doc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import ReactHtmlParser from "react-html-parser";
 import { useParams } from "react-router-dom";
 import { CryptoState } from "../CryptoContext";
-import axios from "axios";
-import { SingleCoin } from "../config/api";
-import { LinearProgress, Typography } from "@mui/material";
-import ReactHtmlParser from "react-html-parser";
 import { numberWithCommas } from "../components/Banner/Carousel";
 import CoinInfo from "../components/CoinInfo";
+import { SingleCoin } from "../config/api";
+import { db } from "../firebase";
 
 const CoinsPage = () => {
   const { id } = useParams();
   const [coin, setCoin] = useState();
-  const { currency, symbol } = CryptoState();
+  const { currency, symbol, user, watchlist } = CryptoState();
 
   const fetchCoin = async () => {
     const { data } = await axios.get(SingleCoin(id));
     setCoin(data);
+  };
+
+  const inWatchlist = watchlist.includes(coin?.id);
+
+  // adding coin to watchlist
+  const addToWatchlist = async () => {
+    const coinRef = doc(db, "watchlist", user.uid);
+    try {
+      await setDoc(
+        coinRef,
+        { coins: watchlist ? [...watchlist, coin?.id] : [coin?.id] },
+        { merge: true }
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  // removing coin to watchlist
+  const removeFromWatchlist = async () => {
+    const coinRef = doc(db, "watchlist", user.uid);
+    try {
+      await setDoc(
+        coinRef,
+        { coins: watchlist.filter((wish) => wish !== coin?.id) },
+        { merge: true }
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   useEffect(() => {
@@ -92,9 +124,22 @@ const CoinsPage = () => {
                 M
               </Typography>
             </span>
+            {user && (
+              <Button
+                variant="outlined"
+                style={{
+                  width: "100%",
+                  height: 40,
+                  backgroundColor: inWatchlist ? "#ff0000" : "#EEBC1D",
+                }}
+                onClick={inWatchlist ? removeFromWatchlist : addToWatchlist}
+              >
+                {inWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
+              </Button>
+            )}
           </div>
         </div>
-        <CoinInfo coin={coin}/>
+        <CoinInfo coin={coin} />
       </div>
     </>
   );

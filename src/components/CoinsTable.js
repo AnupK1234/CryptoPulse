@@ -1,7 +1,3 @@
-import React, { useEffect, useState } from "react";
-import { CryptoState } from "../CryptoContext";
-import axios from "axios";
-import { CoinList } from "../config/api";
 import {
   Container,
   LinearProgress,
@@ -18,7 +14,11 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CryptoState } from "../CryptoContext";
+import { CoinList } from "../config/api";
 import { numberWithCommas } from "./Banner/Carousel";
 
 const CoinsTable = () => {
@@ -164,20 +164,20 @@ const CoinsTable = () => {
         </TableContainer>
 
         {/* Making diffrenct part to display list of Coins */}
-                  <Pagination
-                   count={(handleSearch()?.length/10).toFixed(0)}
-                   style={{
-                    padding:20,
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    color: "red"
-                   }}
-                   onChange={(_, value) => {
-                    setPage(value);
-                    window.scroll(0, 450);
-                   }}
-                  />
+        <Pagination
+          count={(handleSearch()?.length / 10).toFixed(0)}
+          style={{
+            padding: 20,
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            color: "red",
+          }}
+          onChange={(_, value) => {
+            setPage(value);
+            window.scroll(0, 450);
+          }}
+        />
       </Container>
     </ThemeProvider>
   );

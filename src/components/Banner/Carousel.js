@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { CryptoState } from "../../CryptoContext";
 import axios from "axios";
-import { TrendingCoins } from "../../config/api";
+import React, { useEffect, useState } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { Link } from "react-router-dom";
+import { CryptoState } from "../../CryptoContext";
+import { TrendingCoins } from "../../config/api";
 
 export function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -22,7 +22,6 @@ const Carousel = () => {
   useEffect(() => {
     fetchTrendingCoins();
   }, [currency]);
-  console.log(trending);
 
   const items = trending.map((coin) => {
     let profit = coin.price_change_percentage_24h >= 0;

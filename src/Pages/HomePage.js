@@ -7,7 +7,7 @@ const HomePage = () => {
     <>
       <div>
         <Banner />
-        <CoinsTable/>
+        <CoinsTable />
       </div>
     </>
   );
