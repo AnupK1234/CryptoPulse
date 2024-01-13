@@ -44,10 +44,10 @@ export default function AuthModal() {
   const signInWithGoogle = () => {
     signInWithPopup(auth, googleProvider)
       .then((res) => {
-        console.log(res);
+        return;
       })
       .catch((error) => {
-        return;
+        console.log(error);
       });
   };
 
@@ -56,8 +56,8 @@ export default function AuthModal() {
       <Button
         variant="container"
         style={{
-          width: 85,
-          height: 40,
+          width: 90,
+          height: 50,
           marginLeft: 15,
           backgroundColor: "#EEBC1D",
         }}

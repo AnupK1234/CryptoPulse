@@ -1,12 +1,13 @@
 import {
   AppBar,
+  Box,
   Container,
+  FormControl,
+  InputLabel,
   MenuItem,
   Select,
-  ThemeProvider,
   Toolbar,
   Typography,
-  createTheme,
 } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -15,38 +16,47 @@ import AuthModal from "./Authentication/AuthModal";
 import UserSidebar from "./Authentication/UserSidebar";
 
 const Header = () => {
-  const darkTheme = createTheme({
-    palette: {
-      primary: {
-        main: "#FFFFFF",
-      },
-      type: "dark",
-    },
-  });
-
-  const { currency, setCurrency, user } = CryptoState();
-
+  const { setCurrency, user } = CryptoState();
   return (
-    <ThemeProvider theme={darkTheme}>
-      <AppBar color="transparent" position="static">
-        <Container>
-          <Toolbar>
-            <Link to="/">
-              <Typography style={{ color: "gold" }}>CryptoPulse</Typography>
-            </Link>
-            <Select
-              variant="outlined"
-              style={{ widows: 100, height: 40, marginRight: 15 }}
-              onChange={(e) => setCurrency(e.target.value)}
+    <AppBar color="transparent" position="static">
+      <Container>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+          <Link to="/">
+            <Typography
+              style={{ color: "gold", fontWeight: "700", fontSize: "1.5rem" }}
             >
-              <MenuItem value={"USD"}>USD</MenuItem>
-              <MenuItem value={"INR"}>INR</MenuItem>
-            </Select>
-            {user ? <UserSidebar /> : <AuthModal />}
-          </Toolbar>
-        </Container>
-      </AppBar>
-    </ThemeProvider>
+              CryptoPulse
+            </Typography>
+          </Link>
+          <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+              <InputLabel style={{ color: "white" }}>Currency</InputLabel>
+              <Select
+                label="Currency"
+                sx={{
+                  color: "white",
+                  "&:hover .MuiOutlinedInput-notchedOutline, & .MuiOutlinedInput-notchedOutline ":
+                    {
+                      borderColor: "white",
+                    },
+                  "& .MuiSvgIcon-root": {
+                    color: "white",
+                  },
+                }}
+                onChange={(e) => setCurrency(e.target.value)}
+              >
+                <MenuItem value={"USD"}>USD</MenuItem>
+                <MenuItem value={"INR"}>INR</MenuItem>
+                <MenuItem value={"EUR"}>EUR</MenuItem>
+                <MenuItem value={"AUD"}>AUD</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <Link to={"/news"}>News</Link>
+          {user ? <UserSidebar /> : <AuthModal />}
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 

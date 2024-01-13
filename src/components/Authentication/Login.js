@@ -4,6 +4,20 @@ import React, { useState } from "react";
 import { auth } from "../../firebase";
 
 const Login = ({ handleClose }) => {
+
+  const TextFieldStyle = {
+    "& .MuiFormLabel-root": {
+      color:"white",
+      borderColor:"white"
+    },
+    "& .MuiFormControl-root, & .MuiOutlinedInput-notchedOutline": {
+      borderColor: "white"
+    },
+    "& .MuiInputBase-input": {
+      color: "white",
+    },
+  }
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -40,6 +54,7 @@ const Login = ({ handleClose }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           fullWidth
+          sx={TextFieldStyle}
         />
         <TextField
           variant="outlined"
@@ -48,6 +63,7 @@ const Login = ({ handleClose }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           fullWidth
+          sx={TextFieldStyle}
         />
         <Button
           variant="contained"

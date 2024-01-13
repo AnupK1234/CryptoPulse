@@ -10,6 +10,14 @@ export function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+const btnStyle = {
+  fontSize: "30px",
+  color: "white",
+  backgroundColor: "transparent",
+  border: "none",
+  cursor: "pointer",
+};
+
 const Carousel = () => {
   const { currency, symbol } = CryptoState();
   const [trending, setTrending] = useState([]);
@@ -32,7 +40,11 @@ const Carousel = () => {
           src={coin?.image}
           alt={coin.name}
           height="80"
-          style={{ marginBottom: 10 }}
+          style={{
+            marginBottom: 10,
+            backgroundColor: "white",
+            borderRadius: "25px",
+          }}
         />
         <span>
           {coin?.symbol}
@@ -52,6 +64,7 @@ const Carousel = () => {
       </Link>
     );
   });
+
   return (
     <>
       <div className="carousel">
@@ -61,10 +74,21 @@ const Carousel = () => {
           autoPlayInterval={1000}
           animationDuration={1500}
           disableDotsControls
-          disableButtonsControls
+          keyboardNavigation
           responsive={{ 0: { items: 2 }, 512: { items: 4 } }}
           autoPlay
           items={items}
+          buttonsDisabled // Disable default buttons
+          renderPrevButton={({ isDisabled, onClick }) => (
+            <button onClick={onClick} disabled={isDisabled} style={btnStyle}>
+              {"<"}
+            </button>
+          )}
+          renderNextButton={({ isDisabled, onClick }) => (
+            <button onClick={onClick} disabled={isDisabled} style={btnStyle}>
+              {">"}
+            </button>
+          )}
         />
       </div>
     </>

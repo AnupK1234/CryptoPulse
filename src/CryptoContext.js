@@ -10,8 +10,8 @@ const Crypto = createContext();
 const CryptoContext = ({ children }) => {
   const [currency, setCurrency] = useState("INR");
   const [symbol, setSymbol] = useState("₹");
-  const [user, setUser] = useState(null);
   const [coins, setCoins] = useState([]);
+  const [user, setUser] = useState(null);
   const [watchlist, setWatchlist] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({
@@ -25,7 +25,6 @@ const CryptoContext = ({ children }) => {
       const coinRef = doc(db, "watchlist", user?.uid);
       let unsubscribe = onSnapshot(coinRef, (coin) => {
         if (coin.exists()) {
-          console.log(coin.data().coins);
           setWatchlist(coin.data().coins);
         } else {
           console.log("No items in Watchlist");
@@ -38,19 +37,14 @@ const CryptoContext = ({ children }) => {
     }
   }, [user]);
 
+  // Fetching coins data
   useEffect(() => {
     if (currency === "INR") setSymbol("₹");
     else if (currency === "USD") setSymbol("$");
+    else if (currency === "EUR") setSymbol("€");
+    else if (currency === "AUD") setSymbol("AU$");
     fetchCoins();
   }, [currency]);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) setUser(user);
-      else setUser(null);
-      console.log(user);
-    });
-  }, []);
 
   const fetchCoins = async () => {
     setLoading(true);
@@ -58,6 +52,14 @@ const CryptoContext = ({ children }) => {
     setCoins(data);
     setLoading(false);
   };
+
+  // On User Login/Signup
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user && user.emailVerified) setUser(user);
+      else setUser(null);
+    });
+  }, [user]);
 
   return (
     <Crypto.Provider

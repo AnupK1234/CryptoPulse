@@ -1,6 +1,9 @@
 import { Box, Button, TextField } from "@mui/material";
 import Alert from "@mui/material/Alert";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import React, { useState } from "react";
 import { CryptoState } from "../../CryptoContext";
 import { auth } from "../../firebase";
@@ -11,6 +14,19 @@ const SignUp = ({ handleClose }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
   const { setAlert } = CryptoState();
+
+  const TextFieldStyle = {
+    "& .MuiFormLabel-root": {
+      color: "white",
+      borderColor: "white",
+    },
+    "& .MuiFormControl-root, & .MuiOutlinedInput-notchedOutline": {
+      borderColor: "white",
+    },
+    "& .MuiInputBase-input": {
+      color: "white",
+    },
+  };
 
   const handleSubmit = async () => {
     if (password !== confirmPassword) {
@@ -28,7 +44,10 @@ const SignUp = ({ handleClose }) => {
         email,
         password
       );
-
+      await sendEmailVerification(auth.currentUser).then(() => {
+        // Email verification sent!
+        // ...
+      });
       console.log(result);
       handleClose();
     } catch (error) {
@@ -56,6 +75,7 @@ const SignUp = ({ handleClose }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           fullWidth
+          sx={TextFieldStyle}
         />
         <TextField
           variant="outlined"
@@ -64,6 +84,7 @@ const SignUp = ({ handleClose }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           fullWidth
+          sx={TextFieldStyle}
         />
         <TextField
           variant="outlined"
@@ -72,6 +93,7 @@ const SignUp = ({ handleClose }) => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           fullWidth
+          sx={TextFieldStyle}
         />
         <Button
           variant="contained"

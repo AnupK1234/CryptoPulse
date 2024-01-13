@@ -10,7 +10,7 @@ import {
   PointElement,
   Tooltip,
 } from "chart.js";
-import React, { useEffect, useState } from "react";
+import { default as React, useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { CryptoState } from "../CryptoContext";
 import { HistoricalChart } from "../config/api";
@@ -93,7 +93,7 @@ const CoinInfo = ({ coin }) => {
                   key={day.value}
                   onClick={() => {
                     setDays(day.value);
-                    setFlag(false);
+                    setFlag(true);
                   }}
                   selected={day.value === days}
                 >

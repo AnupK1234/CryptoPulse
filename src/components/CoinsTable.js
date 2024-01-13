@@ -1,3 +1,4 @@
+import ArrowCircleUpSharpIcon from "@mui/icons-material/ArrowCircleUpSharp";
 import {
   Container,
   LinearProgress,
@@ -10,9 +11,7 @@ import {
   TableHead,
   TableRow,
   TextField,
-  ThemeProvider,
   Typography,
-  createTheme,
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -26,6 +25,7 @@ const CoinsTable = () => {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [scrollY, setScrollY] = useState(0);
 
   const navigate = useNavigate();
   const { currency, symbol } = CryptoState();
@@ -49,137 +49,195 @@ const CoinsTable = () => {
     );
   };
 
-  const darkTheme = createTheme({
-    palette: {
-      primary: {
-        main: "#FFFFFF",
-      },
-      type: "dark",
-    },
-  });
+  // Handle scroll to top
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      <Container style={{ textAlign: "center" }}>
-        <Typography
-          variant="h4"
-          style={{ margin: 18, fontFamily: "Montserrat" }}
-        >
-          Cryptocurrency Prices by Market Cap
-        </Typography>
-        <TextField
-          label="Search For a Crypto Currency.."
-          variant="outlined"
-          style={{ marginBottom: 20, width: "100%" }}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <TableContainer component={Paper}>
-          {loading ? (
-            <LinearProgress style={{ backgroundColor: "gold" }} />
-          ) : (
-            <Table aria-label="simple table">
-              <TableHead style={{ backgroundColor: "#EEBC1D" }}>
-                <TableRow>
-                  {["Coin", "Price", "24h Change", "Market Cap"].map((head) => (
-                    <TableCell
-                      style={{
-                        color: "black",
-                        fontWeight: "900",
-                        fontSize: "18px",
-                        fontFamily: "Montserrat",
-                      }}
-                      key={head}
-                      align={head === "Coin" ? "" : "right"}
+    <Container style={{ textAlign: "center" }}>
+      <Typography variant="h4" style={{ margin: 18, fontFamily: "Montserrat" }}>
+        Cryptocurrency Prices by Market Cap
+      </Typography>
+      <TextField
+        label="Search For a Crypto Currency.."
+        variant="outlined"
+        style={{ marginBottom: 20, width: "100%" }}
+        sx={{
+          color: "white",
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "white",
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "white",
+          },
+          "& .MuiFormLabel-root": {
+            color: "white",
+          },
+          "& .MuiInputBase-input": {
+            color: "white",
+          },
+        }}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <TableContainer component={Paper}>
+        {loading ? (
+          <LinearProgress style={{ backgroundColor: "gold" }} />
+        ) : (
+          <Table aria-label="simple table">
+            <TableHead style={{ backgroundColor: "#EEBC1D" }}>
+              <TableRow>
+                {["Coin", "Price", "24h Change", "Market Cap"].map((head) => (
+                  <TableCell
+                    style={{
+                      color: "black",
+                      fontWeight: "900",
+                      fontSize: "18px",
+                      fontFamily: "Montserrat",
+                    }}
+                    key={head}
+                    align={head === "Coin" ? "" : "right"}
+                  >
+                    {head}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {handleSearch()
+                .slice((page - 1) * 10, (page - 1) * 10 + 10)
+                .map((row) => {
+                  const profit = row.price_change_percentage_24h > 0;
+                  return (
+                    <TableRow
+                      onClick={() => navigate(`/coins/${row.id}`)}
+                      key={row.name}
+                      sx={{cursor:"pointer", 
+                      "&:hover": {
+                        backgroundColor: "#F1EFEF", // Change background color on hover
+                      }
+                    }}
+                      
                     >
-                      {head}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {handleSearch()
-                  .slice((page - 1) * 10, (page - 1) * 10 + 10)
-                  .map((row) => {
-                    const profit = row.price_change_percentage_24h > 0;
-                    return (
-                      <TableRow
-                        onClick={() => navigate(`/coins/${row.id}`)}
-                        key={row.name}
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        style={{ display: "flex", gap: 15 }}
                       >
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          style={{ display: "flex", gap: 15 }}
+                        <img
+                          src={row?.image}
+                          alt={row.name}
+                          height="50"
+                          style={{ marginBottom: 10 }}
+                        />
+                        <div
+                          style={{ display: "flex", flexDirection: "column" }}
                         >
-                          <img
-                            src={row?.image}
-                            alt={row.name}
-                            height="50"
-                            style={{ marginBottom: 10 }}
-                          />
-                          <div
-                            style={{ display: "flex", flexDirection: "column" }}
+                          <span
+                            style={{
+                              textTransform: "uppercase",
+                              fontSize: 22,
+                            }}
                           >
-                            <span
-                              style={{
-                                textTransform: "uppercase",
-                                fontSize: 22,
-                              }}
-                            >
-                              {row.symbol}
-                            </span>
-                            <span style={{ color: "darkgray" }}>
-                              {" "}
-                              {row.name}
-                            </span>
-                          </div>
-                        </TableCell>
-                        <TableCell align="right">
-                          {symbol}{" "}
-                          {numberWithCommas(row.current_price.toFixed(2))}
-                        </TableCell>
-                        <TableCell
-                          align="right"
-                          style={{
-                            color: profit > 0 ? "rgb(14, 203, 129)" : "red",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {profit && "+"}
-                          {row.price_change_percentage_24h.toFixed(2)}%
-                        </TableCell>
-                        <TableCell align="right">
-                          {symbol}{" "}
-                          {numberWithCommas(
-                            row.market_cap.toString().slice(0, -6)
-                          )}
-                          M
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          )}
-        </TableContainer>
+                            {row.symbol}
+                          </span>
+                          <span style={{ color: "darkgray" }}> {row.name}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        style={{
+                          fontSize: 18,
+                        }}
+                      >
+                        {symbol}{" "}
+                        {numberWithCommas(row.current_price.toFixed(2))}
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        style={{
+                          color: profit > 0 ? "rgb(14, 203, 129)" : "red",
+                          fontSize: 18,
+                          fontWeight: 500,
+                        }}
+                      >
+                        {profit && "+"}
+                        {row.price_change_percentage_24h.toFixed(2)}%
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        style={{
+                          fontSize: 18,
+                        }}
+                      >
+                        {symbol}{" "}
+                        {numberWithCommas(
+                          row.market_cap.toString().slice(0, -6)
+                        )}
+                        M
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        )}
+      </TableContainer>
 
-        {/* Making diffrenct part to display list of Coins */}
-        <Pagination
-          count={(handleSearch()?.length / 10).toFixed(0)}
-          style={{
-            padding: 20,
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            color: "red",
-          }}
-          onChange={(_, value) => {
-            setPage(value);
-            window.scroll(0, 450);
-          }}
-        />
-      </Container>
-    </ThemeProvider>
+      <ArrowCircleUpSharpIcon
+        onClick={() => window.scrollTo(0, 0)}
+        sx={{
+          color: "white",
+          fontSize: 40,
+          marginRight: "10px",
+          position: "fixed",
+          right: 40,
+          bottom: 20,
+          cursor: "pointer",
+          display: scrollY > 10 ? "block" : "none",
+         animation: scrollY > 10 ? "bouncee 1.4s infinite" : "none",
+        "@keyframes bouncee": {
+          "0%, 100%": {
+            transform: "scale(1.2)",
+          },
+          "50%": {
+            transform: "scale(1)",
+          }
+        },
+        }}
+      />
+
+      {/* Making different part to display list of Coins */}
+      <Pagination
+        count={(handleSearch()?.length / 10).toFixed(0)}
+        style={{
+          padding: 20,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+        onChange={(_, value) => {
+          setPage(value);
+          window.scroll(0, 450);
+        }}
+        sx={{
+          "& .MuiButtonBase-root, & .MuiPaginationItem-root": {
+            color: "white",
+          },
+          "& .Mui-selected": {
+            border: "1px solid",
+          },
+        }}
+      />
+    </Container>
   );
 };
 

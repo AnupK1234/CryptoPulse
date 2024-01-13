@@ -19,16 +19,17 @@ a {
     min-height: 100vh;
 }
 
-.appbar {
+/* .appbar {
     flex: 1;
     color: gold;
     font-family: "Montserrat";
     font-weight: bold;
     cursor: pointer;
-}
+} */
 
 .banner {
-    background-image: url(../public/banner2.jpg);
+    background-image: url(../public/banner.jpg);
+    
 }
 
 .bannerContent {
@@ -97,14 +98,14 @@ a {
     font-family: Montserrat;
   }
   
-  .description {
+  /* .description {
     width: 100%;
     font-family: Montserrat;
     padding: 25px;
     padding-bottom: 15px;
     padding-top: 0;
     text-align: justify;
-  }
+  } */
   
   .marketData {
     align-self: start;
@@ -160,15 +161,15 @@ a {
     padding-right: 20px;
     font-family: Montserrat;
     cursor: pointer;
-    background-color: var(--primary); /* Add your desired background color or remove this line */
-    color: var(--text-color); /* Add your desired text color or remove this line */
+    background-color: var(--primary);
+    color: var(--text-color); 
     font-weight: 500;
     width: 22%;
     transition: background-color 0.3s, color 0.3s;
   
     &:hover {
       background-color: gold;
-      color: black;
+      color: rgb(255, 255, 255);
     }
   }
   
