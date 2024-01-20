@@ -20,6 +20,7 @@ const CryptoContext = ({ children }) => {
     type: "success",
   });
 
+  // Adding coins to watchlist
   useEffect(() => {
     if (user) {
       const coinRef = doc(db, "watchlist", user?.uid);
@@ -56,7 +57,7 @@ const CryptoContext = ({ children }) => {
   // On User Login/Signup
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user && user.emailVerified) setUser(user);
+      if (user) setUser(user);
       else setUser(null);
     });
   }, [user]);

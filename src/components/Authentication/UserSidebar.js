@@ -26,11 +26,13 @@ const UserSidebar = () => {
     setState({ ...state, [anchor]: open });
   };
 
+  // User logout
   const logOut = () => {
     signOut(auth);
     toggleDrawer();
   };
 
+  // Remove coin from watchlist
   const removeFromWatchlist = async (coin) => {
     const coinRef = doc(db, "watchlist", user.uid);
     try {
@@ -84,23 +86,25 @@ const UserSidebar = () => {
                   {user.displayName || user.email}
                 </span>
                 <div className="watchlist">
-                  <span style={{ fontSize: 15, textShadow: "0 0 5px black" }}>
+                  <span style={{ fontSize: 20, textShadow: "0 0 5px black" }}>
                     Watchlist
                   </span>
                   {coins.map((coin) => {
                     if (watchlist.includes(coin.id))
                       return (
-                        <div className="coin">
-                          <span>{coin.name}</span>
-                          <span style={{ display: "flex", gap: 8 }}>
-                            {symbol}{" "}
-                            {numberWithCommas(coin.current_price.toFixed(2))}
-                            <AiFillDelete
-                              style={{ cursor: "pointer" }}
-                              fontSize="16"
-                              onClick={() => removeFromWatchlist(coin)}
-                            />
-                          </span>
+                        <div className="coin" key={coin.id}>
+                          <div>
+                            <span>{coin.name}</span>
+                            <span style={{ display: "flex", gap: 8 }}>
+                              {symbol}{" "}
+                              {numberWithCommas(coin.current_price.toFixed(2))}
+                            </span>
+                          </div>
+                          <AiFillDelete
+                            style={{ cursor: "pointer" }}
+                            fontSize="16"
+                            onClick={() => removeFromWatchlist(coin)}
+                          />
                         </div>
                       );
                     else return <></>;

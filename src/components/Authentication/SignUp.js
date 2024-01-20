@@ -5,7 +5,6 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import React, { useState } from "react";
-import { CryptoState } from "../../CryptoContext";
 import { auth } from "../../firebase";
 
 const SignUp = ({ handleClose }) => {
@@ -13,7 +12,6 @@ const SignUp = ({ handleClose }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
-  const { setAlert } = CryptoState();
 
   const TextFieldStyle = {
     "& .MuiFormLabel-root": {

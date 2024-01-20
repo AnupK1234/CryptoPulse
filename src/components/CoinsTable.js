@@ -104,7 +104,7 @@ const CoinsTable = () => {
                       fontFamily: "Montserrat",
                     }}
                     key={head}
-                    align={head === "Coin" ? "" : "right"}
+                    align={head === "Coin" ? "left" : "right"}
                   >
                     {head}
                   </TableCell>
@@ -217,7 +217,7 @@ const CoinsTable = () => {
 
       {/* Making different part to display list of Coins */}
       <Pagination
-        count={(handleSearch()?.length / 10).toFixed(0)}
+        count={parseInt((handleSearch()?.length / 10).toFixed(0))}
         style={{
           padding: 20,
           width: "100%",

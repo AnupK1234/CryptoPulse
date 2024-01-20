@@ -1,12 +1,23 @@
-import { Button, CardActionArea, CardActions } from "@mui/material";
+import { Button, CardActionArea, CardActions, Snackbar } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function NewsCard({ item }) {
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const handleClick = (link) => {
+    navigator.clipboard.writeText(link);
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
   return (
     <>
       <div style={{ padding: 10 }}>
@@ -25,11 +36,23 @@ export default function NewsCard({ item }) {
             </CardActionArea>
           </Link>
           <CardActions>
-            <Button size="small" color="primary">
+            <Button
+              size="small"
+              color="primary"
+              onClick={() => handleClick(item.link)}
+            >
               Share
             </Button>
           </CardActions>
         </Card>
+
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={3000}
+          onClose={handleSnackbarClose}
+          message="Link copied to clipboard"
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        />
       </div>
     </>
   );

@@ -52,7 +52,9 @@ const Header = () => {
               </Select>
             </FormControl>
           </Box>
-          <Link to={"/news"}>News</Link>
+          <Link to="/news" style={{ fontSize:25 }}>
+            News
+          </Link>
           {user ? <UserSidebar /> : <AuthModal />}
         </Toolbar>
       </Container>

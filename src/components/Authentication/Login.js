@@ -4,19 +4,20 @@ import React, { useState } from "react";
 import { auth } from "../../firebase";
 
 const Login = ({ handleClose }) => {
+  const [error, setError] = useState(false);
 
   const TextFieldStyle = {
     "& .MuiFormLabel-root": {
-      color:"white",
-      borderColor:"white"
+      color: "white",
+      borderColor: "white",
     },
     "& .MuiFormControl-root, & .MuiOutlinedInput-notchedOutline": {
-      borderColor: "white"
+      borderColor: "white",
     },
     "& .MuiInputBase-input": {
       color: "white",
     },
-  }
+  };
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,10 +30,20 @@ const Login = ({ handleClose }) => {
 
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
-      handleClose();
+      console.log("Result: ", result);
+      if (result.user.emailVerified) handleClose();
+      else {
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 4000);
+      }
     } catch (error) {
-      console.log(error);
-      <Alert severity="error">{error.message}</Alert>;
+      console.log(error.code);
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 4000);
       return;
     }
   };
@@ -73,6 +84,12 @@ const Login = ({ handleClose }) => {
         >
           Login
         </Button>
+
+        {error && (
+          <Alert variant="filled" severity="error">
+            Invalid Credentials/Email not verified
+          </Alert>
+        )}
       </Box>
     </>
   );
